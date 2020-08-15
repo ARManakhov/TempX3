@@ -1,0 +1,71 @@
+{
+    "configurations": [
+        {
+            "name": "!!! WARNING !!! AUTO-GENERATED FILE, PLEASE DO NOT MODIFY IT AND USE https://docs.platformio.org/page/projectconf/section_env_build.html#build-flags"
+        },
+        {
+            "name": "Linux",
+            "includePath": [
+                "/home/sirosh/prog/hw/temp_3x/final/firmware/include",
+                "/home/sirosh/prog/hw/temp_3x/final/firmware/src",
+                "/home/sirosh/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                "/home/sirosh/prog/hw/temp_3x/final/firmware/.pio/libdeps/uno/ArduinoSTL/src",
+                "/home/sirosh/.platformio/lib/OneWire_ID1",
+                "/home/sirosh/prog/hw/temp_3x/final/firmware/.pio/libdeps/uno/FreeRTOS/src",
+                "/home/sirosh/.platformio/packages/framework-arduino-avr/cores/arduino",
+                "/home/sirosh/.platformio/packages/framework-arduino-avr/variants/standard",
+                "/home/sirosh/prog/hw/temp_3x/final/firmware/.pio/libdeps/uno/TaskScheduler/src",
+                "/home/sirosh/.platformio/lib/LedControl_ID5722/src",
+                "/home/sirosh/.platformio/lib/Scheduler/src",
+                "/home/sirosh/.platformio/lib/estdlib_ID5784/src",
+                "/home/sirosh/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                "/home/sirosh/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                "/home/sirosh/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                "/home/sirosh/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                "/home/sirosh/.platformio/packages/tool-unity",
+                ""
+            ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true,
+                "path": [
+                    "/home/sirosh/prog/hw/temp_3x/final/firmware/include",
+                    "/home/sirosh/prog/hw/temp_3x/final/firmware/src",
+                    "/home/sirosh/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                    "/home/sirosh/prog/hw/temp_3x/final/firmware/.pio/libdeps/uno/ArduinoSTL/src",
+                    "/home/sirosh/.platformio/lib/OneWire_ID1",
+                    "/home/sirosh/prog/hw/temp_3x/final/firmware/.pio/libdeps/uno/FreeRTOS/src",
+                    "/home/sirosh/.platformio/packages/framework-arduino-avr/cores/arduino",
+                    "/home/sirosh/.platformio/packages/framework-arduino-avr/variants/standard",
+                    "/home/sirosh/prog/hw/temp_3x/final/firmware/.pio/libdeps/uno/TaskScheduler/src",
+                    "/home/sirosh/.platformio/lib/LedControl_ID5722/src",
+                    "/home/sirosh/.platformio/lib/Scheduler/src",
+                    "/home/sirosh/.platformio/lib/estdlib_ID5784/src",
+                    "/home/sirosh/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                    "/home/sirosh/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                    "/home/sirosh/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                    "/home/sirosh/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                    "/home/sirosh/.platformio/packages/tool-unity",
+                    ""
+                ]
+            },
+            "defines": [
+                "PLATFORMIO=40304",
+                "ARDUINO_AVR_UNO",
+                "F_CPU=16000000L",
+                "ARDUINO_ARCH_AVR",
+                "ARDUINO=10808",
+                "__AVR_ATmega328P__",
+                ""
+            ],
+            "intelliSenseMode": "clang-x64",
+            "cStandard": "c11",
+            "cppStandard": "c++11",
+            "compilerPath": "/home/sirosh/.platformio/packages/toolchain-atmelavr/bin/avr-gcc",
+            "compilerArgs": [
+                "-mmcu=atmega328p",
+                ""
+            ]
+        }
+    ],
+    "version": 4
+}
