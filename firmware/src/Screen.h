@@ -6,13 +6,15 @@
 #define UNTITLED3_SCREEN_H
 
 #include <Arduino.h>
-#include "settings.h"
+#include "settingsHW.h"
 
 class Screen
 {
 public:
     void setLineData(int lineNum, int Num);
     void setLineData(int lineNum, byte* data);
+    void setLineAsMenu(int lineNum, int num);
+    void setLineAsErr(int lineNum);
     void drawAll();
     Screen();
     void SetTestMode(bool testMode);

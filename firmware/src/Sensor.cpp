@@ -5,7 +5,7 @@
 #include "Sensor.h"
 #include <ArduinoSTL.h>
 #include "ds18b20.h"
-#include "settings.h"
+#include "settingsHW.h"
 
 void Sensor::readData()
 {

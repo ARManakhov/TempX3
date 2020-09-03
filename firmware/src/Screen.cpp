@@ -4,7 +4,7 @@
 
 #include "Screen.h"
 #include <Arduino.h>
-#include "settings.h"
+#include "settingsHW.h"
 #include "max7221codes.h"
 #include <SPI.h>
 
@@ -28,6 +28,38 @@ void Screen::setLineData(int lineNum, byte *data)
         for (int i = screen_cs - 1; i >= 0; --i)
         {
             bytes[lineNum * screen_cs + i] = data[i];
+        }
+    }
+}
+
+void Screen::setLineAsMenu(int lineNum, int num)
+{
+    if (lineNum <= screen_ls && num < 10)
+    {
+        for (int i = screen_cs - 1; i >= 0; --i)
+        {
+            if (i == screen_cs - 1 || i == 0)
+            {
+                bytes[lineNum * screen_cs + i] = B00000001;                 
+            }
+            else
+            {
+                int digit = num % 10;
+                num /= 10;
+                bytes[lineNum * screen_cs + i] = process(i, digit);
+
+            }
+        }
+    }
+}
+
+void Screen::setLineAsErr(int lineNum)
+{
+    if (lineNum <= screen_ls)
+    {
+        for (int i = screen_cs - 1; i >= 0; --i)
+        {
+                bytes[lineNum * screen_cs + i] = B00000001; 
         }
     }
 }

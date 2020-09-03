@@ -1,11 +1,12 @@
 #include <Arduino.h>
 #include <HardwareSerial.h>
-#include "settings.h"
+#include "settingsHW.h"
 #include "Screen.h"
 #include "vector"
 #include "Sensor.h"
 #include "SensorUtil.h"
 #include <Arduino_FreeRTOS.h>
+#include "InterfaceManager.h"
 
 using namespace std;
 
@@ -13,6 +14,8 @@ vector<Sensor *> *sensors;
 Screen *screen;
 SensorUtil sensorUtil;
 byte scState[screen_ls];
+Settings settings;
+InterfaceManager *interfaceManager;
 
 void TaskSensorsRead(void *pvParameters)
 {
@@ -37,55 +40,16 @@ void TaskScreenDraw(void *pvParameters)
             case 0:
                 if (sensors->at(i)->isDisconnected())
                 {
-                    byte data[3] = {B00000001, B00000001, B00000001};
-                    screen->setLineData(i, data);
+                    screen->setLineAsErr(i);
                 }
                 else
                 {
                     screen->setLineData(i, sensors->at(i)->getLastTemp());
                 }
                 break;
-            case 1:
+            case 1 ... 7:
             {
-                byte data[3] = {B01001110, B00110000, B01111000};
-                screen->setLineData(i, data);
-                break;
-            }
-
-            case 2:
-            {
-                byte data[3] = {B01001110, B01101101, B01111000};
-                screen->setLineData(i, data);
-                break;
-            }
-            case 3:
-            {
-                byte data[3] = {B01001110, B01111001, B01111000};
-                screen->setLineData(i, data);
-                break;
-            }
-            case 4:
-            {
-                byte data[3] = {B01001110, B00110011, B01111000};
-                screen->setLineData(i, data);
-                break;
-            }
-            case 5:
-            {
-                byte data[3] = {B01001110, B01011011, B01111000};
-                screen->setLineData(i, data);
-                break;
-            }
-            case 6:
-            {
-                byte data[3] = {B01001110, B01011111, B01111000};
-                screen->setLineData(i, data);
-                break;
-            }
-            case 7:
-            {
-                byte data[3] = {B01001110, B01110000, B01111000};
-                screen->setLineData(i, data);
+                screen->setLineAsMenu(i, scState[i]);
                 break;
             }
             default:
@@ -125,106 +89,14 @@ void TaskButtonRead(void *pvParameters)
                     break;
                 }
             }
-            switch (butNum)
-            {
-            case 0:
-                switch (scState[i])
-                {
-               case 0:
-                    scState[i] = 1;
-                    break;
-                case 1:
-                    scState[i] = 7;
-                    break;
-                case 2:
-                    scState[i] = 1;
-                    break;
-                case 3:
-                    scState[i] = 2;
-                    break;
-                case 4:
-                    scState[i] = 3;
-                    break;
-                case 5:
-                    scState[i] = 4;
-                    break;
-                case 6:
-                    scState[i] = 5;
-                    break;
-                case 7:
-                    scState[i] = 6;
-                    break;
-                default:
-                    scState[i] = 0;
-                }
-                break;
-            case 1:
-                switch (scState[i])
-                {
-                case 0: //just view temp
-                    scState[i] = 1;
-                    break;
-                case 1: //menu, option 1 min trigger temp
-                    scState[i] = 11;
-                    break;
-                case 2: //menu, option 2 max treigger temp
-                    scState[i] = 12;
-                    break;
-                case 3: //menu, option 3 change sensor
-                    scState[i] = 13;
-                    break;
-                case 4: //menu, option 4 callibrate sensor
-                    scState[i] = 14;
-                    break;
-                case 5: //menu, option 5 mute buzzer
-                    scState[i] = 15;
-                    break;
-                case 6: //menu, option 6 buzzer behavior
-                    scState[i] = 16;
-                    break;
-                case 7: //menu, option 7 screen brightness
-                    scState[i] = 17;
-                    break;
-                default:
-                    scState[i] = 0;
-                }
-                break;
-            case 2:
-                switch (scState[i])
-                {
-                case 0:
-                    scState[i] = 2;
-                    break;
-                case 1:
-                    scState[i] = 2;
-                    break;
-                case 2:
-                    scState[i] = 3;
-                    break;
-                case 3:
-                    scState[i] = 4;
-                    break;
-                case 4:
-                    scState[i] = 5;
-                    break;
-                case 5:
-                    scState[i] = 6;
-                    break;
-                case 6:
-                    scState[i] = 7;
-                    break;
-                case 7:
-                    scState[i] = 1;
-                    break;
-                default:
-                    scState[i] = 0;
-                }
-                break;
-                break;
-            default:
-                break;
-            }
-
+            interfaceManager->dispatch(butNum, i);
+            Serial.print("b ");
+            Serial.print(butNum);
+            Serial.print(" l ");
+            Serial.print(i);
+            Serial.print(" s ");
+            Serial.println(scState[i]);
+            
             delay(20);
             //Serial.println(butNum);
         }
@@ -244,6 +116,8 @@ void setup()
     {
         scState[i] = 0;
     }
+
+    interfaceManager = new InterfaceManager(scState, settings);
 
     xTaskCreate(TaskSensorsRead, "SensorRead", 128, NULL, 0, NULL);
     xTaskCreate(TaskScreenDraw, "ScreenDraw", 128, NULL, 0, NULL);
