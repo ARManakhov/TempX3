@@ -1,5 +1,5 @@
-#include <Arduino.h>;
-#include "Settings.h";
+#include <Arduino.h>
+#include "Settings.h"
 
 class InterfaceManager
 {

@@ -2,8 +2,8 @@
 // Created by sirosh on 23.06.2020.
 //
 
-#ifndef UNTITLED3_SENSOR_H
-#define UNTITLED3_SENSOR_H
+#ifndef SENSOR_H
+#define SENSOR_H
 
 #include <Arduino.h>
 #include <OneWire.h>

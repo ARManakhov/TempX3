@@ -7,6 +7,7 @@
 #include "SensorUtil.h"
 #include <Arduino_FreeRTOS.h>
 #include "InterfaceManager.h"
+#include "DisplayManager.h"
 
 using namespace std;
 
@@ -16,6 +17,7 @@ SensorUtil sensorUtil;
 byte scState[screen_ls];
 Settings settings;
 InterfaceManager *interfaceManager;
+DisplayManager *displayManager;
 
 void TaskSensorsRead(void *pvParameters)
 {
@@ -33,30 +35,7 @@ void TaskScreenDraw(void *pvParameters)
 {
     for (;;)
     {
-        for (size_t i = 0; i < sensors->size(); i++)
-        {
-            switch (scState[i])
-            {
-            case 0:
-                if (sensors->at(i)->isDisconnected())
-                {
-                    screen->setLineAsErr(i);
-                }
-                else
-                {
-                    screen->setLineData(i, sensors->at(i)->getLastTemp());
-                }
-                break;
-            case 1 ... 7:
-            {
-                screen->setLineAsMenu(i, scState[i]);
-                break;
-            }
-            default:
-                break;
-            }
-        }
-        screen->drawAll();
+        displayManager->dispatch();
         delay(50);
     }
 }
@@ -89,14 +68,7 @@ void TaskButtonRead(void *pvParameters)
                     break;
                 }
             }
-            interfaceManager->dispatch(butNum, i);
-            Serial.print("b ");
-            Serial.print(butNum);
-            Serial.print(" l ");
-            Serial.print(i);
-            Serial.print(" s ");
-            Serial.println(scState[i]);
-            
+            interfaceManager->dispatch(butNum, i);         
             delay(20);
             //Serial.println(butNum);
         }
@@ -118,6 +90,7 @@ void setup()
     }
 
     interfaceManager = new InterfaceManager(scState, settings);
+    displayManager = new DisplayManager(scState, settings, sensors, screen);
 
     xTaskCreate(TaskSensorsRead, "SensorRead", 128, NULL, 0, NULL);
     xTaskCreate(TaskScreenDraw, "ScreenDraw", 128, NULL, 0, NULL);

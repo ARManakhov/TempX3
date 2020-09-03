@@ -1,7 +1,10 @@
 
-#include <Arduino.h>;
-#include "Sensor.h";
-#include <vector>;
+#ifndef SETTINGS_H
+#define SETTINGS_H
+
+#include <Arduino.h>
+#include "Sensor.h"
+#include <vector>
 
 class Settings
 {
@@ -16,3 +19,4 @@ public:
 
 };
 
+#endif
