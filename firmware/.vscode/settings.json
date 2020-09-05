@@ -1,6 +1,9 @@
 {
     "files.associations": {
         "deque": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "associative_base": "cpp",
+        "queue": "cpp",
+        "stack": "cpp"
     }
 }

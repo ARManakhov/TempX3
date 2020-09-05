@@ -5,10 +5,9 @@ class InterfaceManager
 {
 private:
     byte * scState;
-    Settings oldSettings;
-    Settings newSettings;
+    Settings * settings;
 public:
-    InterfaceManager(byte * scState, Settings settings);
+    InterfaceManager(byte * scState, Settings * settings);
     ~InterfaceManager();
     void dispatch(byte button, byte i);
 };

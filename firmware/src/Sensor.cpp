@@ -75,11 +75,11 @@ byte *Sensor::getAddress()
     return addr;
 }
 
-Sensor::Sensor(byte *addr, const OneWire &oneWire) : addr(addr), oneWire(oneWire)
+Sensor::Sensor(byte addr[8], const OneWire &oneWire) : addr(addr), oneWire(oneWire)
 {
 }
 
-Sensor::Sensor(byte *addr, uint8_t pin) : addr(addr)
+Sensor::Sensor(byte addr[8], uint8_t pin) : addr(addr)
 {
     oneWire = OneWire(pin);
 }

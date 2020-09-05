@@ -8,12 +8,11 @@ class DisplayManager
 {
 private:
     byte * scState;
-    Settings oldSettings;
-    Settings newSettings;
+    Settings * settings;
     std::vector<Sensor *> *sensors;
     Screen *screen;
 public:
-    DisplayManager(byte * scState, Settings settings, std::vector<Sensor *> *sensors, Screen *screen);
+    DisplayManager(byte * scState, Settings * settings, std::vector<Sensor *> *sensors, Screen *screen);
     ~DisplayManager();
     void dispatch();
 };

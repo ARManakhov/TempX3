@@ -1,6 +1,6 @@
 #include "InterfaceManager.h"
 
-InterfaceManager::InterfaceManager(byte *scState, Settings settings) : scState(scState), oldSettings(settings)
+InterfaceManager::InterfaceManager(byte *scState, Settings *settings) : scState(scState), settings(settings)
 {
 }
 
@@ -39,6 +39,31 @@ void InterfaceManager::dispatch(byte button, byte line)
         case 7:
             scState[line] = 6;
             break;
+        case 11:
+        {
+            --settings->getMinTemps()[line * 2 + 1];
+            break;
+        }
+        case 12:
+        {
+            --settings->getMaxTemps()[line * 2 + 1];
+            break;
+        }
+        case 13:
+        {
+            settings->getZoomerMute()[1] = !settings->getZoomerMute()[1];
+            break;
+        }
+        case 14:
+        {
+            settings->getZoomerInverted()[1] = !settings->getZoomerInverted()[1];
+            break;
+        }
+        case 15:
+        {
+            --settings->getBrightness()[1];
+            break;
+        }
         default:
             scState[line] = 0;
         }
@@ -55,19 +80,19 @@ void InterfaceManager::dispatch(byte button, byte line)
         case 2: //menu, option 2 max treigger temp
             scState[line] = 12;
             break;
-        case 3: //menu, option 3 change sensor
+        case 3: //menu, option 5 mute buzzer
             scState[line] = 13;
             break;
-        case 4: //menu, option 4 callibrate sensor
+        case 4: //menu, option 6 buzzer behavior
             scState[line] = 14;
             break;
-        case 5: //menu, option 5 mute buzzer
+        case 5: //menu, option 7 screen brightness
             scState[line] = 15;
             break;
-        case 6: //menu, option 6 buzzer behavior
+        case 6: //menu, option 3 change sensor
             scState[line] = 16;
             break;
-        case 7: //menu, option 7 screen brightness
+        case 7: //menu, option 4 callibrate sensor
             scState[line] = 17;
             break;
         default:
@@ -101,6 +126,31 @@ void InterfaceManager::dispatch(byte button, byte line)
         case 7:
             scState[line] = 1;
             break;
+        case 11:
+        {
+            ++settings->getMinTemps()[line * 2 + 1];
+            break;
+        }
+        case 12:
+        {
+            ++settings->getMaxTemps()[line * 2 + 1];
+            break;
+        }
+        case 13:
+        {
+            settings->getZoomerMute()[1] = !settings->getZoomerMute()[1];
+            break;
+        }
+        case 14:
+        {
+            settings->getZoomerInverted()[1] = !settings->getZoomerInverted()[1];
+            break;
+        }
+        case 15:
+        {
+            ++settings->getBrightness()[1];
+            break;
+        }
         default:
             scState[line] = 0;
         }

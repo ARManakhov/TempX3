@@ -15,7 +15,7 @@ vector<Sensor *> *sensors;
 Screen *screen;
 SensorUtil sensorUtil;
 byte scState[screen_ls];
-Settings settings;
+Settings * settings;
 InterfaceManager *interfaceManager;
 DisplayManager *displayManager;
 
@@ -88,6 +88,7 @@ void setup()
     {
         scState[i] = 0;
     }
+    settings = new Settings();
 
     interfaceManager = new InterfaceManager(scState, settings);
     displayManager = new DisplayManager(scState, settings, sensors, screen);
