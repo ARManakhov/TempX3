@@ -8,6 +8,7 @@
 
 void SensorUtil::scanAllNew(std::vector<Sensor *> *sensors, OneWire oneWire)
 {
+    
     byte *addr_p;
     addr_p = new byte[8];
     while (oneWire.search(addr_p))

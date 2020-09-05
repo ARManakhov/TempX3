@@ -80,21 +80,51 @@ void InterfaceManager::dispatch(byte button, byte line)
         case 2: //menu, option 2 max treigger temp
             scState[line] = 12;
             break;
-        case 3: //menu, option 5 mute buzzer
+        case 3: //menu, option 3 mute buzzer
             scState[line] = 13;
             break;
-        case 4: //menu, option 6 buzzer behavior
+        case 4: //menu, option 4 buzzer behavior
             scState[line] = 14;
             break;
-        case 5: //menu, option 7 screen brightness
+        case 5: //menu, option 5 screen brightness
             scState[line] = 15;
             break;
-        case 6: //menu, option 3 change sensor
+        case 6: //menu, option 6 change sensor
             scState[line] = 16;
             break;
-        case 7: //menu, option 4 callibrate sensor
+        case 7: //menu, option 7 callibrate sensor
             scState[line] = 17;
             break;
+        case 11:
+        {
+            settings->commitMinTemps();
+            scState[line]=0;
+            break;
+        }
+        case 12:
+        {
+            settings->commitMaxTemps();
+            scState[line]=0;
+            break;
+        }
+        case 13:
+        {
+            settings->commitZoomerMute();
+            scState[line]=0;
+            break;
+        }
+        case 14:
+        {
+            settings->commitZoomerInverted();
+            scState[line]=0;
+            break;
+        }
+        case 15:
+        {
+            settings->commitBrightness();
+            scState[line]=0;
+            break;
+        }
         default:
             scState[line] = 0;
         }

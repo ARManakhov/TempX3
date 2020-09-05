@@ -15,8 +15,19 @@ private:
     bool zoomerInverted[2];
     byte brightness[2];
     byte * addressess[screen_ls];
-    int maxTemps[screen_ls*2];
-    int minTemps[screen_ls*2];
+    int16_t maxTemps[screen_ls*2];
+    int16_t minTemps[screen_ls*2];
+    bool saveBools();
+    bool saveAddresses();
+    bool saveMaxTemps();
+    bool saveMinTemps();
+    bool saveBrightness();
+    
+    bool readBools();
+    bool readAddresses();
+    bool readMaxTemps();
+    bool readMinTemps();
+    bool readBrightness();
 public:
     Settings();
     bool * getZoomerMute();
@@ -31,10 +42,10 @@ public:
     byte * * getAddressess();
     bool  commitAddressess();
 
-    int * getMaxTemps();
+    int16_t * getMaxTemps();
     bool commitMaxTemps();
 
-    int * getMinTemps();
+    int16_t * getMinTemps();
     bool commitMinTemps();
 };
 
