@@ -10,7 +10,7 @@ private:
     std::vector<Sensor *> *sensorsAll;
     Settings *settings;
     OneWire *oneWire;
-    void scanAllNew(std::vector<Sensor *> *sensors);
+    bool scanAllNew();
     long scanCooldown = 0;
 public:
     SensorsManager(std::vector<Sensor *> *sensors, Settings *settings);
