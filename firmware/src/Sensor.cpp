@@ -9,22 +9,22 @@
 
 void Sensor::readData()
 {
-    oneWire.reset();
-    oneWire.select(addr);
-    oneWire.write(STARTCONVO, 1); // start conversion, with parasite power on at the end
+    oneWire->reset();
+    oneWire->select(addr);
+    oneWire->write(STARTCONVO, 1); // start conversion, with parasite power on at the end
 
     delay(sensors_scan_period); // maybe 750ms is enough, maybe not
     // we might do a ds.depower() here, but the reset will take care of it.
 
-    oneWire.reset();
-    oneWire.select(addr);
-    oneWire.write(READSCRATCH, 1); // Read Scratchpad
+    oneWire->reset();
+    oneWire->select(addr);
+    oneWire->write(READSCRATCH, 1); // Read Scratchpad
 
     delay(sensor_before_read_period);
 
     for (int i = 0; i < 9; i++)
     { // we need 9 bytes
-        lastData[i] = oneWire.read();
+        lastData[i] = oneWire->read();
     }
 }
 
@@ -75,13 +75,8 @@ byte *Sensor::getAddress()
     return addr;
 }
 
-Sensor::Sensor(byte addr[8], const OneWire &oneWire) : addr(addr), oneWire(oneWire)
+Sensor::Sensor(byte addr[8], OneWire * oneWire) : addr(addr), oneWire(oneWire)
 {
-}
-
-Sensor::Sensor(byte addr[8], uint8_t pin) : addr(addr)
-{
-    oneWire = OneWire(pin);
 }
 
 bool Sensor::isDisconnected(){
@@ -90,15 +85,44 @@ bool Sensor::isDisconnected(){
 
 void Sensor::init()
 {
-    oneWire.reset();
-    oneWire.select(addr);
-    oneWire.write(WRITESCRATCH, 1);
-    delay(100);
-    oneWire.write(0);
-    oneWire.write(0);
-    oneWire.write(TEMP_9_BIT);
+    oneWire->reset();
+    oneWire->select(addr);
+    oneWire->write(WRITESCRATCH, 1);         
 
-    oneWire.reset();
-    oneWire.select(addr);
-    oneWire.write(COPYSCRATCH, 1);
+    delay(100);
+    oneWire->write(0);
+    oneWire->write(0);
+    oneWire->write(TEMP_9_BIT);
+
+    oneWire->reset();
+    oneWire->select(addr);
+    oneWire->write(COPYSCRATCH, 1);
+
+    
 }
+
+bool Sensor::equalAddr(Sensor * sensor){
+    byte * sensorAddress = sensor->getAddress();
+    for (size_t i = 0; i < 8; i++)
+    {
+        if (sensorAddress[i] != addr[i])
+        {
+            return false;
+        }
+    }
+    return true;
+
+}
+
+bool Sensor::equalAddr(byte * sensorAddress){
+    for (size_t i = 0; i < 8; i++)
+    {
+        if (sensorAddress[i] != addr[i])
+        {
+            return false;
+        }
+    }
+    return true;
+
+}
+

@@ -11,21 +11,21 @@
 class Sensor
 {
 public:
-    Sensor(byte addr[8], const OneWire &oneWire);
-    Sensor(byte addr[8], uint8_t pin);
+    Sensor(byte addr[8],OneWire * oneWire);
     void readData();
     float getTemp();
     float getLastTemp();
     byte * getAddress();
     void init();
     bool isDisconnected();
-
+    bool equalAddr(Sensor * sensor);
+    bool equalAddr(byte * addr);
 private:
     bool disconnected = true;
     bool scanned = false;
     byte * addr;
     byte lastData[12];
-    OneWire oneWire;
+    OneWire * oneWire;
     byte present = 0;
     float lastTemp;
 };

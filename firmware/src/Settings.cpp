@@ -41,8 +41,9 @@ bool Settings::commitAddressess()
         {
             wasTrue = true;
             addressess[i * 2] = addressess[i * 2 + 1];
-            saveBools();
+            saveAddresses();
         }
+
     }
     return wasTrue;
 }
@@ -155,6 +156,14 @@ bool Settings::saveMaxTemps()
     return true;
 }
 
+bool Settings::saveAddresses(){
+    return true;
+}
+
+bool Settings::readAddresses(){
+    return true;
+}
+
 bool Settings::readBools()
 {
     byte bools = EEPROM.read(1);
@@ -199,6 +208,7 @@ Settings::Settings(Screen * screen) : screen(screen)
     readMinTemps();
     readMaxTemps();
     readBrightness();
+    readAddresses();
     bool isDataCorrupt = false;
     for (size_t i = 0; i < screen_ls; i++)
     {
@@ -229,5 +239,6 @@ Settings::Settings(Screen * screen) : screen(screen)
         saveMinTemps();
         saveBrightness();
         saveBools();
+        saveAddresses();
     }
 }

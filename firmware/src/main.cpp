@@ -4,32 +4,25 @@
 #include "Screen.h"
 #include "vector"
 #include "Sensor.h"
-#include "SensorUtil.h"
 #include <Arduino_FreeRTOS.h>
 #include "InterfaceManager.h"
 #include "DisplayManager.h"
-
+#include "SensorsManager.h"
 using namespace std;
 
 vector<Sensor *> *sensors;
 Screen *screen;
-SensorUtil sensorUtil;
 byte scState[screen_ls];
 Settings *settings;
 InterfaceManager *interfaceManager;
 DisplayManager *displayManager;
+SensorsManager *sensorsManager;
 
 void TaskSensorsRead(void *pvParameters)
 {
     for (;;)
     {
-            for (size_t i = 0; i < sensors->size(); i++)
-            {
-                sensors->at(i)->readData();
-                sensors->at(i)->getTemp();
-            }
-        
-        
+        sensorsManager->dispatch();
     }
 }
 
@@ -82,9 +75,9 @@ void setup()
     Serial.begin(115200);
     Serial.println("starting device");
     pinMode(cs_pin, OUTPUT);
+
     sensors = new vector<Sensor *>();
     screen = new Screen();
-    sensorUtil.scanAllNew(sensors, OneWire(sensors_pin));
 
     for (size_t i = 0; i < screen_ls; i++)
     {
@@ -94,6 +87,7 @@ void setup()
 
     interfaceManager = new InterfaceManager(scState, settings);
     displayManager = new DisplayManager(scState, settings, sensors, screen);
+    sensorsManager = new SensorsManager(sensors, settings);
 
     xTaskCreate(TaskSensorsRead, "SensorRead", 128, NULL, 0, NULL);
     xTaskCreate(TaskScreenDraw, "ScreenDraw", 128, NULL, 0, NULL);
