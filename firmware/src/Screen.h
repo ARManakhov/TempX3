@@ -19,8 +19,9 @@ public:
     Screen();
     void SetTestMode(bool testMode);
     void SetAllOn(bool state);
-
+    void setBrigtness(byte bright);
 private:
+    byte brightness;
     void init();
     int cyclesCount ;
     byte bytes[screen_ls * screen_cs];

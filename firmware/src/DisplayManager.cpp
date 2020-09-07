@@ -15,7 +15,7 @@ void DisplayManager::dispatch()
             switch (scState[i])
             {
             case 0:
-                if (sensors->at(i)->isDisconnected())
+                if (sensors->size() <= i ||sensors->at(i)->isDisconnected())
                 {
                     screen->setLineAsErr(i);
                 }

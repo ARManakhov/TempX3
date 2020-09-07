@@ -19,34 +19,33 @@ void InterfaceManager::dispatch(byte button, byte line)
             scState[line] = 1;
             break;
         case 1:
-            scState[line] = 7;
-            break;
-        case 2:
-            scState[line] = 1;
-            break;
-        case 3:
-            scState[line] = 2;
-            break;
-        case 4:
-            scState[line] = 3;
-            break;
-        case 5:
-            scState[line] = 4;
-            break;
-        case 6:
             scState[line] = 5;
             break;
-        case 7:
-            scState[line] = 6;
+        case 2 ... 5:
+            scState[line]--;
             break;
         case 11:
         {
-            --settings->getMinTemps()[line * 2 + 1];
+            if (settings->getMinTemps()[line * 2 + 1] == -200)
+            {
+                settings->getMinTemps()[line * 2 + 1] = 200;
+            }
+            else
+            {
+                --settings->getMinTemps()[line * 2 + 1];
+            }
             break;
         }
         case 12:
         {
-            --settings->getMaxTemps()[line * 2 + 1];
+            if (settings->getMaxTemps()[line * 2 + 1] == 200)
+            {
+                settings->getMaxTemps()[line * 2 + 1] = 200;
+            }
+            else
+            {   
+                --settings->getMaxTemps()[line * 2 + 1];
+            }
             break;
         }
         case 13:
@@ -61,7 +60,14 @@ void InterfaceManager::dispatch(byte button, byte line)
         }
         case 15:
         {
-            --settings->getBrightness()[1];
+            if (settings->getBrightness()[1] != 0)
+            {
+                --settings->getBrightness()[1];
+            }
+            else
+            {
+                settings->getBrightness()[1] = 15;
+            }
             break;
         }
         default:
@@ -98,31 +104,31 @@ void InterfaceManager::dispatch(byte button, byte line)
         case 11:
         {
             settings->commitMinTemps();
-            scState[line]=0;
+            scState[line] = 0;
             break;
         }
         case 12:
         {
             settings->commitMaxTemps();
-            scState[line]=0;
+            scState[line] = 0;
             break;
         }
         case 13:
         {
             settings->commitZoomerMute();
-            scState[line]=0;
+            scState[line] = 0;
             break;
         }
         case 14:
         {
             settings->commitZoomerInverted();
-            scState[line]=0;
+            scState[line] = 0;
             break;
         }
         case 15:
         {
             settings->commitBrightness();
-            scState[line]=0;
+            scState[line] = 0;
             break;
         }
         default:
@@ -135,35 +141,34 @@ void InterfaceManager::dispatch(byte button, byte line)
         case 0:
             scState[line] = 2;
             break;
-        case 1:
-            scState[line] = 2;
-            break;
-        case 2:
-            scState[line] = 3;
-            break;
-        case 3:
-            scState[line] = 4;
-            break;
-        case 4:
-            scState[line] = 5;
+        case 1 ... 4:
+            scState[line]++;
             break;
         case 5:
-            scState[line] = 6;
-            break;
-        case 6:
-            scState[line] = 7;
-            break;
-        case 7:
             scState[line] = 1;
             break;
         case 11:
         {
-            ++settings->getMinTemps()[line * 2 + 1];
+            if (settings->getMinTemps()[line * 2 + 1] == 200)
+            {
+                settings->getMinTemps()[line * 2 + 1] = -200;
+            }
+            else
+            {
+                ++settings->getMinTemps()[line * 2 + 1];
+            }
             break;
         }
         case 12:
         {
-            ++settings->getMaxTemps()[line * 2 + 1];
+            if (settings->getMaxTemps()[line * 2 + 1] == 200)
+            {
+                settings->getMaxTemps()[line * 2 + 1] = -200;
+            }
+            else
+            {
+                ++settings->getMaxTemps()[line * 2 + 1];
+            }
             break;
         }
         case 13:
@@ -178,7 +183,14 @@ void InterfaceManager::dispatch(byte button, byte line)
         }
         case 15:
         {
-            ++settings->getBrightness()[1];
+            if (settings->getBrightness()[1] != 15)
+            {
+                ++settings->getBrightness()[1];
+            }
+            else
+            {
+                settings->getBrightness()[1] = 0;
+            }
             break;
         }
         default:

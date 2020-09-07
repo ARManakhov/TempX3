@@ -5,6 +5,7 @@
 #include <Arduino.h>
 #include "Sensor.h"
 #include "settingsHW.h"
+#include "Screen.h"
 #include <vector>
 
 class Settings
@@ -28,8 +29,9 @@ private:
     bool readMaxTemps();
     bool readMinTemps();
     bool readBrightness();
+    Screen * screen;
 public:
-    Settings();
+    Settings(Screen * screen);
     bool * getZoomerMute();
     bool commitZoomerMute();
 

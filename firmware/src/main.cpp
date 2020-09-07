@@ -15,7 +15,7 @@ vector<Sensor *> *sensors;
 Screen *screen;
 SensorUtil sensorUtil;
 byte scState[screen_ls];
-Settings * settings;
+Settings *settings;
 InterfaceManager *interfaceManager;
 DisplayManager *displayManager;
 
@@ -23,11 +23,13 @@ void TaskSensorsRead(void *pvParameters)
 {
     for (;;)
     {
-        for (size_t i = 0; i < sensors->size(); i++)
-        {
-            sensors->at(i)->readData();
-            sensors->at(i)->getTemp();
-        }
+            for (size_t i = 0; i < sensors->size(); i++)
+            {
+                sensors->at(i)->readData();
+                sensors->at(i)->getTemp();
+            }
+        
+        
     }
 }
 
@@ -68,7 +70,7 @@ void TaskButtonRead(void *pvParameters)
                     break;
                 }
             }
-            interfaceManager->dispatch(butNum, i);         
+            interfaceManager->dispatch(butNum, i);
             delay(20);
             //Serial.println(butNum);
         }
@@ -88,7 +90,7 @@ void setup()
     {
         scState[i] = 0;
     }
-    settings = new Settings();
+    settings = new Settings(screen);
 
     interfaceManager = new InterfaceManager(scState, settings);
     displayManager = new DisplayManager(scState, settings, sensors, screen);

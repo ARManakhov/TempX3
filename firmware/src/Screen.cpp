@@ -126,6 +126,8 @@ Screen::Screen()
     digitalWrite(cs_pin, LOW);
     init();
     digitalWrite(cs_pin, HIGH);
+    
+    brightness = 7;
 
     byte data[3] = {B00000001, B00000001, B00000001};
 
@@ -147,7 +149,12 @@ void Screen::init()
 
     SendToAllStr(OP_SHUTDOWN, 1); //turn on displays
 
-    SendToAllStr(OP_INTENSITY, 7); //set intensity
+    SendToAllStr(OP_INTENSITY, brightness); //set intensity
+}
+
+void Screen::setBrigtness(byte brigtness){
+    this->brightness = brigtness;
+    SendToAllStr(OP_INTENSITY, brigtness); //set intensity
 }
 
 void Screen::SendToAllStr(byte code, byte data)

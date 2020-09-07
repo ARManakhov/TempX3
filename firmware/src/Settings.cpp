@@ -1,5 +1,6 @@
 #include "Settings.h"
 #include <EEPROM.h>
+#include "Screen.h"
 
 byte **Settings::getAddressess()
 {
@@ -52,6 +53,7 @@ bool Settings::commitBrightness()
     {
         brightness[0] = brightness[1];
         saveBrightness();
+        screen->setBrigtness(brightness[1]);
         return true;
     }
     return false;
@@ -135,8 +137,8 @@ bool Settings::saveMinTemps()
     for (size_t i = 0; i < screen_ls; i++)
     {
         int16_t num = minTemps[i * 2];
-        EEPROM.write(2 + i * 2 + 0, num >> 8);
-        EEPROM.write(2 + i * 2 + 1, num & 0xFF);
+        EEPROM.write(3 + i * 2 + 0, num >> 8);
+        EEPROM.write(3 + i * 2 + 1, num & 0xFF);
     }
     return true;
 }
@@ -147,8 +149,8 @@ bool Settings::saveMaxTemps()
     for (size_t i = 0; i < screen_ls; i++)
     {
         int16_t num = maxTemps[i * 2];
-        EEPROM.write(2 + screen_ls * 2 + i * 2 + 0, num >> 8);
-        EEPROM.write(2 + screen_ls * 2 + i * 2 + 1, num & 0xFF);
+        EEPROM.write(3 + screen_ls * 2 + i * 2 + 0, num >> 8);
+        EEPROM.write(3 + screen_ls * 2 + i * 2 + 1, num & 0xFF);
     }
     return true;
 }
@@ -167,7 +169,7 @@ bool Settings::readMaxTemps()
 {
     for (size_t i = 0; i < screen_ls; i++)
     {
-        maxTemps[i * 2] = (EEPROM.read(2 + screen_ls * 2 + i * 2 + 0) << 8 )+ EEPROM.read(2 + screen_ls * 2 + i * 2 + 1);
+        maxTemps[i * 2] = (EEPROM.read(3 + screen_ls * 2 + i * 2 + 0) << 8 )+ EEPROM.read(3 + screen_ls * 2 + i * 2 + 1);
         maxTemps[i * 2 + 1] = maxTemps[i * 2];
     }
     return true;
@@ -177,22 +179,30 @@ bool Settings::readMinTemps()
 {
     for (size_t i = 0; i < screen_ls; i++)
     {
-        minTemps[i * 2] = (EEPROM.read(2 + i * 2 + 0) << 8) + EEPROM.read(2 + i * 2 + 1);
+        minTemps[i * 2] = (EEPROM.read(3 + i * 2 + 0) << 8) + EEPROM.read(3 + i * 2 + 1);
         minTemps[i * 2 + 1] = minTemps[i * 2];
     }
     return true;
 }
 
-Settings::Settings()
+bool Settings::readBrightness(){
+    brightness[0] = EEPROM.read(2);
+    brightness[1] = brightness[0];
+    screen->setBrigtness(brightness[0]);
+    return true;
+}
+
+Settings::Settings(Screen * screen) : screen(screen)
 {
     //read values to conf from eeprom
     readBools();
     readMinTemps();
     readMaxTemps();
+    readBrightness();
     bool isDataCorrupt = false;
     for (size_t i = 0; i < screen_ls; i++)
     {
-        if (maxTemps[i * 2] > 200 || maxTemps[i * 2] < -200 || minTemps[i * 2] > 200 || minTemps[i * 2] < -200)
+        if (maxTemps[i * 2] > 200 || maxTemps[i * 2] < -200 || minTemps[i * 2] > 200 || minTemps[i * 2] < -200 || brightness[0] > 15 || brightness[0] < 0)
         {
             isDataCorrupt = true;
         }
@@ -213,7 +223,11 @@ Settings::Settings()
         zoomerMuted[1] = true;
         zoomerInverted[0] = true;
         zoomerInverted[1] = true;
+        brightness[0] = 7;
+        brightness[1] = 7;
         saveMaxTemps();
         saveMinTemps();
+        saveBrightness();
+        saveBools();
     }
 }
