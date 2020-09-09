@@ -23,7 +23,7 @@ OneWire oneWire(sensors_pin);
 void TaskSensorsRead(void *pvParameters)
 {
     for (;;)
-    {
+    {  
         sensorsManager->dispatch();
     }
 }
@@ -39,6 +39,7 @@ void TaskScreenDraw(void *pvParameters)
 
 void TaskButtonRead(void *pvParameters)
 {
+    
     const byte buttonPins[screen_ls] = button_pins;
     const int buttonCurents[3] = button_currents;
     unsigned long butTime[screen_ls * 3];
@@ -79,6 +80,7 @@ void setup()
     pinMode(cs_pin, OUTPUT);
 
     sensors = new vector<Sensor *>();
+    sensorsFromEeprom = new vector<Sensor *>();
     screen = new Screen();
 
 
@@ -86,7 +88,7 @@ void setup()
     {
         scState[i] = 0;
     }
-    settings = new Settings(screen, &oneWire);
+    settings = new Settings(screen, &oneWire,sensorsFromEeprom);
 
     interfaceManager = new InterfaceManager(scState, settings);
     displayManager = new DisplayManager(scState, settings, sensors, screen);

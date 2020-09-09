@@ -12,8 +12,6 @@ bool SensorsManager::scanAllNew()
 
     while (oneWire->search(addr_p))
     {
-        
-        
         bool inVector = false;
         for (size_t i = 0; i < sensorsAll->size(); i++)
         {
@@ -48,10 +46,10 @@ bool SensorsManager::scanAllNew()
         {
             isHasNew = true;
         }
-
         Sensor * eeprom = NULL;
         for (size_t i = 0; i < sensorsFromEeprom->size(); i++)
         {
+            //Serial.println("ITER");
             Sensor * iterator = sensorsFromEeprom->at(i);
             if (iterator->equalAddr(addr_p))
             {
@@ -72,6 +70,7 @@ bool SensorsManager::scanAllNew()
         newSensor->init();
         settings->updateSensorsData(newSensor); //todo impl better performance when in eeprom
         addr_p = new byte[8];
+
     }
 
     return isHasNew;
@@ -121,5 +120,6 @@ void SensorsManager::dispatch()
 SensorsManager::SensorsManager(std::vector<Sensor *> *sensors, std::vector<Sensor *> *sensorsFromEeprom, Settings *settings, OneWire *oneWire) : sensorsInUse(sensors), settings(settings), oneWire(oneWire), sensorsFromEeprom(sensorsFromEeprom)
 {
     sensorsAll = new std::vector<Sensor *>();
-    Serial.println("asd");
+    Serial.print("presize:");
+    Serial.println(sensorsFromEeprom->size());
 }

@@ -143,7 +143,7 @@ bool Settings::readAddresses()
         if (headerInfo >> 7)
         {
             byte screenOrder = headerInfo & 0x01111111;
-            byte expireOrder = (EEPROM.read(3 + screen_ls * 4 + i * 10 + 1));
+            byte expireOrder = EEPROM.read(3 + screen_ls * 4 + i * 10 + 1);
             byte addr[8];
             for (size_t j = 0; j < 8; j++)
             {
@@ -156,6 +156,7 @@ bool Settings::readAddresses()
             sensorsFromEEPROM->push_back(sensor);
         }
     }
+
     if (sensorsFromEEPROM->size() > 0)
     {
         for (size_t i = 0; i < sensorsFromEEPROM->size(); i++)
@@ -295,7 +296,7 @@ bool Settings::readBrightness()
     return true;
 }
 
-Settings::Settings(Screen *screen, OneWire *oneWire) : screen(screen), oneWire(oneWire)
+Settings::Settings(Screen *screen, OneWire *oneWire, std::vector<Sensor *> *sensorsFromEeprom) : screen(screen), oneWire(oneWire), sensorsFromEEPROM(sensorsFromEeprom)
 {
     //read values to conf from eeprom
     readBools();
@@ -303,6 +304,8 @@ Settings::Settings(Screen *screen, OneWire *oneWire) : screen(screen), oneWire(o
     readMaxTemps();
     readBrightness();
     readAddresses();
+    Serial.print("eeprom contain :");
+    Serial.println(sensorsFromEEPROM->size());
     bool isDataCorrupt = false;
     for (size_t i = 0; i < screen_ls; i++)
     {

@@ -38,7 +38,7 @@ private:
     OneWire *oneWire;
 
 public:
-    Settings(Screen *screen, OneWire *oneWire);
+    Settings(Screen *screen, OneWire *oneWire, std::vector<Sensor *> *sensorsFromEeprom);
     bool *getZoomerMute();
     bool commitZoomerMute();
 
