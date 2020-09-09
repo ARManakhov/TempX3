@@ -1,4 +1,5 @@
-
+#ifndef SETTINGS_HW
+#define SETTINGS_HW
 //only system data
 //screen connectivity
 #define cs_pin 10
@@ -11,3 +12,5 @@
 
 #define screen_ls 3
 #define screen_cs 3
+
+#endif

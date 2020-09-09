@@ -1,7 +1,3 @@
-//
-// Created by sirosh on 23.06.2020.
-//
-
 #ifndef SENSOR_H
 #define SENSOR_H
 

@@ -1,9 +1,5 @@
-//
-// Created by sirosh on 17.07.2020.
-//
-
-#ifndef SCREEN_TEST_MAX7221CODES_H
-#define SCREEN_TEST_MAX7221CODES_H
+#ifndef MAX7221CODES_H
+#define MAX7221CODES_H
 
 #define OP_NOOP         0
 #define OP_DIGIT0       1
@@ -22,4 +18,4 @@
 
 #define max_spi_speed 14000000
 
-#endif //SCREEN_TEST_MAX7221CODES_H
+#endif

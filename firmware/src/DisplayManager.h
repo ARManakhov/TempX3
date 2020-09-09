@@ -1,3 +1,6 @@
+#ifndef DISPLAY_MANAGER_H
+#define DISPLAY_MANAGER_H
+
 #include <Arduino.h>
 #include "Settings.h"
 #include "vector"
@@ -17,3 +20,4 @@ public:
     void dispatch();
 };
 
+#endif

@@ -27,7 +27,6 @@ bool *Settings::getZoomerMute()
     return zoomerMuted;
 }
 
-
 bool Settings::commitBrightness()
 {
     if (brightness[0] != brightness[1])
@@ -136,55 +135,99 @@ bool Settings::saveMaxTemps()
     return true;
 }
 
-
-bool Settings::readAddresses(){
-    for (size_t i = 0; i < screen_ls*3; i++)
+bool Settings::readAddresses()
+{
+    for (size_t i = 0; i < screen_ls * 3; i++)
     {
         byte headerInfo = (EEPROM.read(3 + screen_ls * 4 + i * 10)); //first bit say about sensor existance, 2-8 say about order in eeprom
-        if (headerInfo >> 7 )
+        if (headerInfo >> 7)
         {
             byte screenOrder = headerInfo & 0x01111111;
             byte expireOrder = (EEPROM.read(3 + screen_ls * 4 + i * 10 + 1));
-            byte addr [8];
+            byte addr[8];
             for (size_t j = 0; j < 8; i++)
             {
                 addr[j] = EEPROM.read(3 + screen_ls * 4 + i * 10 + 2 + j);
             }
-            Sensor * sensor = new Sensor(addr, oneWire);
+            Sensor *sensor = new Sensor(addr, oneWire);
             sensor->setEepromOrder(i);
             sensor->setScreenOrder(screenOrder);
             sensor->setExpireOrder(expireOrder);
             sensorsFromEEPROM->push_back(sensor);
         }
     }
+    if (sensorsFromEEPROM->size() > 0)
+    {
+        for (size_t i = 0; i < sensorsFromEEPROM->size(); i++)
+        {
+            Sensor * itertor = sensorsFromEEPROM->at(i);
+            if (lastSensor->getExpireOrder() < itertor->getExpireOrder())
+            {
+                lastSensor = itertor;
+            }
+            if (itertor->getExpireOrder() == 0)
+            {
+                firstSensor = itertor;
+            }
+        }
+    }
     return true;
 }
 
-bool Settings::updateSensorsData(Sensor * sensor)
+bool Settings::updateSensorsData(Sensor *sensor)
 {
     if (sensorsFromEEPROM > 0)
     {
         bool alreadyInEeprom = false;
-        byte maxExpire = 0;
-        byte maxExpireOrder = 0;
         for (size_t i = 0; i < sensorsFromEEPROM->size(); i++)
         {
             if (sensorsFromEEPROM->at(i)->equalAddr(sensor))
             {
                 alreadyInEeprom = true;
-                maxExpireOrder =  sensorsFromEEPROM->at(i)->getEepromOrder();       
                 break;
-            }
-            if (maxExpire < sensorsFromEEPROM->at(i)->getExpireOrder())
-            {
-                maxExpire = sensorsFromEEPROM->at(i)->getExpireOrder();
-                maxExpireOrder = sensorsFromEEPROM->at(i)->getEepromOrder();
             }
         }
         sensor->setExpireOrder(0);
-        sensor->setEepromOrder(maxExpireOrder); //todo if exist in eeprom, just update exparation
-        saveNewSensor(sensor);
-    }else{
+        if (sensorsFromEEPROM->size() == screen_ls*3)
+        {
+            sensor->setExpireOrder(0);
+            sensor->setEepromOrder(lastSensor->getEepromOrder()); 
+            firstSensor = sensor;
+            lastSensor = NULL;
+            for (size_t i = 0; i < sensors->size(); i++)
+            {
+                if (lastSensor == NULL || sensors->at(i)->getExpireOrder() > lastSensor->getExpireOrder())
+                {
+                    lastSensor = sensors->at(i);
+                }
+            }
+            saveNewSensor(sensor); 
+        } else{
+            if (alreadyInEeprom)
+            {
+                firstSensor->setExpireOrder(1);
+                sensor->setExpireOrder(0);
+                EEPROM.write(3 + screen_ls * 4 + sensor->getEepromOrder() * 10 + 1, sensor->getExpireOrder());
+                EEPROM.write(3 + screen_ls * 4 + firstSensor->getEepromOrder() * 10 + 1, firstSensor->getExpireOrder());
+                firstSensor = sensor;
+            }else{
+                sensor->setExpireOrder(0);
+                byte maxOrder = 0;
+                for (size_t i = 0; i < sensors->size(); i++)
+                {
+                    if (maxOrder < sensors->at(i)->getEepromOrder())
+                    {
+                        maxOrder = sensors->at(i)->getExpireOrder();
+                    }                    
+                }
+                sensor->setEepromOrder(maxOrder);
+                firstSensor = sensor;
+                saveNewSensor(firstSensor);
+            }
+        }
+    }
+    else
+    {
         sensor->setExpireOrder(0);
         sensor->setEepromOrder(0);
         sensorsFromEEPROM->push_back(sensor);
@@ -193,23 +236,25 @@ bool Settings::updateSensorsData(Sensor * sensor)
     return true;
 }
 
-bool Settings::saveNewSensor(Sensor * sensor){
+
+bool Settings::saveNewSensor(Sensor *sensor)
+{
     byte eepromOrder = sensor->getEepromOrder();
     byte first = 0x10000000 | sensor->getScreenOrder();
     byte second = sensor->getExpireOrder();
     EEPROM.write(3 + screen_ls * 4 + eepromOrder * 10, first);
     EEPROM.write(3 + screen_ls * 4 + eepromOrder * 10 + 1, second);
-    byte * address = sensor->getAddress();
+    byte *address = sensor->getAddress();
     for (size_t i = 0; i < 8; i++)
     {
         EEPROM.write(3 + screen_ls * 4 + sensor->getEepromOrder() * 10 + 2 + i, address[i]);
-    }    
+    }
     for (size_t i = 0; i < sensorsFromEEPROM->size(); i++)
     {
-        Sensor * sensorAt = sensorsFromEEPROM->at(i);
+        Sensor *sensorAt = sensorsFromEEPROM->at(i);
         if (!sensorAt->equalAddr(sensor))
         {
-            byte newOrder = 1+sensorAt->getExpireOrder();
+            byte newOrder = 1 + sensorAt->getExpireOrder();
             sensorAt->setExpireOrder(newOrder);
             EEPROM.write(3 + screen_ls * 4 + sensorAt->getEepromOrder() * 10 + 1, newOrder);
         }
@@ -231,7 +276,7 @@ bool Settings::readMaxTemps()
 {
     for (size_t i = 0; i < screen_ls; i++)
     {
-        maxTemps[i * 2] = (EEPROM.read(3 + screen_ls * 2 + i * 2 + 0) << 8 )+ EEPROM.read(3 + screen_ls * 2 + i * 2 + 1);
+        maxTemps[i * 2] = (EEPROM.read(3 + screen_ls * 2 + i * 2 + 0) << 8) + EEPROM.read(3 + screen_ls * 2 + i * 2 + 1);
         maxTemps[i * 2 + 1] = maxTemps[i * 2];
     }
     return true;
@@ -247,14 +292,15 @@ bool Settings::readMinTemps()
     return true;
 }
 
-bool Settings::readBrightness(){
+bool Settings::readBrightness()
+{
     brightness[0] = EEPROM.read(2);
     brightness[1] = brightness[0];
     screen->setBrigtness(brightness[0]);
     return true;
 }
 
-Settings::Settings(Screen * screen, OneWire * oneWire) : screen(screen), oneWire(oneWire)
+Settings::Settings(Screen *screen, OneWire *oneWire) : screen(screen), oneWire(oneWire)
 {
     //read values to conf from eeprom
     readBools();

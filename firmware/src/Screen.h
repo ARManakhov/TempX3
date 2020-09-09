@@ -1,9 +1,5 @@
-//
-// Created by sirosh on 23.06.2020.
-//
-
-#ifndef UNTITLED3_SCREEN_H
-#define UNTITLED3_SCREEN_H
+#ifndef SCREEN_H
+#define SCREEN_H
 
 #include <Arduino.h>
 #include "settingsHW.h"
@@ -43,4 +39,4 @@ private:
     void SendToAllStr(byte code, byte data);
 };
 
-#endif //UNTITLED3_SCREEN_H
+#endif

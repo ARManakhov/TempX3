@@ -1,3 +1,6 @@
+#ifndef INTERFACE_MANAGER_H
+#define INTERFACE_MANAGER_H
+
 #include <Arduino.h>
 #include "Settings.h"
 
@@ -11,4 +14,4 @@ public:
     ~InterfaceManager();
     void dispatch(byte button, byte i);
 };
-
+#endif

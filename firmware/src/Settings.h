@@ -1,4 +1,3 @@
-
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
@@ -14,6 +13,8 @@ class Settings
 private:
     std::vector<Sensor *> *sensors;
     std::vector<Sensor *> *sensorsFromEEPROM;
+    Sensor * firstSensor;
+    Sensor * lastSensor;
     bool zoomerMuted[2];
     bool zoomerInverted[2];
     byte brightness[2];
@@ -22,6 +23,7 @@ private:
     int16_t minTemps[screen_ls * 2];
     bool saveBools();
     bool saveNewSensor(Sensor * sensor);
+    bool saveExistSensor(Sensor * sensor, Sensor * secondSensor);
     bool saveMaxTemps();
     bool saveMinTemps();
     bool saveBrightness();
@@ -30,6 +32,7 @@ private:
     bool readMaxTemps();
     bool readMinTemps();
     bool readBrightness();
+    bool makeFirst(Sensor * sensor);
     byte getSensorOrder(Sensor sensor);
     Screen *screen;
     OneWire *oneWire;

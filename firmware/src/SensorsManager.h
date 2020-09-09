@@ -1,3 +1,6 @@
+#ifndef SENSORS_MANAGE_H
+#define SENSORS_MANAGE_H
+
 #include <Arduino.h>
 #include <vector>
 #include "Sensor.h"
@@ -17,3 +20,5 @@ public:
     SensorsManager(std::vector<Sensor *> *sensors, Settings *settings, OneWire *oneWire);
     void dispatch();
 };
+
+#endif
