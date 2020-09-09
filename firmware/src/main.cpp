@@ -17,6 +17,7 @@ Settings *settings;
 InterfaceManager *interfaceManager;
 DisplayManager *displayManager;
 SensorsManager *sensorsManager;
+OneWire oneWire(sensors_pin);
 
 void TaskSensorsRead(void *pvParameters)
 {
@@ -79,15 +80,16 @@ void setup()
     sensors = new vector<Sensor *>();
     screen = new Screen();
 
+
     for (size_t i = 0; i < screen_ls; i++)
     {
         scState[i] = 0;
     }
-    settings = new Settings(screen);
+    settings = new Settings(screen, &oneWire);
 
     interfaceManager = new InterfaceManager(scState, settings);
     displayManager = new DisplayManager(scState, settings, sensors, screen);
-    sensorsManager = new SensorsManager(sensors, settings);
+    sensorsManager = new SensorsManager(sensors, settings, &oneWire);
 
     xTaskCreate(TaskSensorsRead, "SensorRead", 128, NULL, 0, NULL);
     xTaskCreate(TaskScreenDraw, "ScreenDraw", 128, NULL, 0, NULL);

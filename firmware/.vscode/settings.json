@@ -4,6 +4,10 @@
         "vector": "cpp",
         "associative_base": "cpp",
         "queue": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "algorithm": "cpp",
+        "map": "cpp",
+        "set": "cpp",
+        "typeinfo": "cpp"
     }
 }

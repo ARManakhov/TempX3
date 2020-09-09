@@ -16,11 +16,20 @@ public:
     float getTemp();
     float getLastTemp();
     byte * getAddress();
+    void setScreenOrder(byte order);
+    byte getScreenOrder();
+    void setEepromOrder(byte order);
+    byte getEepromOrder();
+    void setExpireOrder(byte order);
+    byte getExpireOrder();
     void init();
     bool isDisconnected();
     bool equalAddr(Sensor * sensor);
     bool equalAddr(byte * addr);
 private:
+    byte screenOrder;
+    byte eepromOrder;
+    byte expireOrder;
     bool disconnected = true;
     bool scanned = false;
     byte * addr;
@@ -30,4 +39,4 @@ private:
     float lastTemp;
 };
 
-#endif //UNTITLED3_SENSOR_H
+#endif 

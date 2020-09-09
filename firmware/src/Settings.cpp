@@ -2,11 +2,6 @@
 #include <EEPROM.h>
 #include "Screen.h"
 
-byte **Settings::getAddressess()
-{
-    return addressess;
-}
-
 byte *Settings::getBrightness()
 {
     return brightness;
@@ -32,21 +27,6 @@ bool *Settings::getZoomerMute()
     return zoomerMuted;
 }
 
-bool Settings::commitAddressess()
-{
-    bool wasTrue = false;
-    for (byte i = 0; i < screen_ls; i++)
-    {
-        if (addressess[i * 2] != addressess[i * 2 + 1])
-        {
-            wasTrue = true;
-            addressess[i * 2] = addressess[i * 2 + 1];
-            saveAddresses();
-        }
-
-    }
-    return wasTrue;
-}
 
 bool Settings::commitBrightness()
 {
@@ -156,11 +136,84 @@ bool Settings::saveMaxTemps()
     return true;
 }
 
-bool Settings::saveAddresses(){
+
+bool Settings::readAddresses(){
+    for (size_t i = 0; i < screen_ls*3; i++)
+    {
+        byte headerInfo = (EEPROM.read(3 + screen_ls * 4 + i * 10)); //first bit say about sensor existance, 2-8 say about order in eeprom
+        if (headerInfo >> 7 )
+        {
+            byte screenOrder = headerInfo & 0x01111111;
+            byte expireOrder = (EEPROM.read(3 + screen_ls * 4 + i * 10 + 1));
+            byte addr [8];
+            for (size_t j = 0; j < 8; i++)
+            {
+                addr[j] = EEPROM.read(3 + screen_ls * 4 + i * 10 + 2 + j);
+            }
+            Sensor * sensor = new Sensor(addr, oneWire);
+            sensor->setEepromOrder(i);
+            sensor->setScreenOrder(screenOrder);
+            sensor->setExpireOrder(expireOrder);
+            sensorsFromEEPROM->push_back(sensor);
+        }
+    }
     return true;
 }
 
-bool Settings::readAddresses(){
+bool Settings::updateSensorsData(Sensor * sensor)
+{
+    if (sensorsFromEEPROM > 0)
+    {
+        bool alreadyInEeprom = false;
+        byte maxExpire = 0;
+        byte maxExpireOrder = 0;
+        for (size_t i = 0; i < sensorsFromEEPROM->size(); i++)
+        {
+            if (sensorsFromEEPROM->at(i)->equalAddr(sensor))
+            {
+                alreadyInEeprom = true;
+                maxExpireOrder =  sensorsFromEEPROM->at(i)->getEepromOrder();       
+                break;
+            }
+            if (maxExpire < sensorsFromEEPROM->at(i)->getExpireOrder())
+            {
+                maxExpire = sensorsFromEEPROM->at(i)->getExpireOrder();
+                maxExpireOrder = sensorsFromEEPROM->at(i)->getEepromOrder();
+            }
+        }
+        sensor->setExpireOrder(0);
+        sensor->setEepromOrder(maxExpireOrder); //todo if exist in eeprom, just update exparation
+        saveNewSensor(sensor);
+    }else{
+        sensor->setExpireOrder(0);
+        sensor->setEepromOrder(0);
+        sensorsFromEEPROM->push_back(sensor);
+        saveNewSensor(sensor);
+    }
+    return true;
+}
+
+bool Settings::saveNewSensor(Sensor * sensor){
+    byte eepromOrder = sensor->getEepromOrder();
+    byte first = 0x10000000 | sensor->getScreenOrder();
+    byte second = sensor->getExpireOrder();
+    EEPROM.write(3 + screen_ls * 4 + eepromOrder * 10, first);
+    EEPROM.write(3 + screen_ls * 4 + eepromOrder * 10 + 1, second);
+    byte * address = sensor->getAddress();
+    for (size_t i = 0; i < 8; i++)
+    {
+        EEPROM.write(3 + screen_ls * 4 + sensor->getEepromOrder() * 10 + 2 + i, address[i]);
+    }    
+    for (size_t i = 0; i < sensorsFromEEPROM->size(); i++)
+    {
+        Sensor * sensorAt = sensorsFromEEPROM->at(i);
+        if (!sensorAt->equalAddr(sensor))
+        {
+            byte newOrder = 1+sensorAt->getExpireOrder();
+            sensorAt->setExpireOrder(newOrder);
+            EEPROM.write(3 + screen_ls * 4 + sensorAt->getEepromOrder() * 10 + 1, newOrder);
+        }
+    }
     return true;
 }
 
@@ -201,7 +254,7 @@ bool Settings::readBrightness(){
     return true;
 }
 
-Settings::Settings(Screen * screen) : screen(screen)
+Settings::Settings(Screen * screen, OneWire * oneWire) : screen(screen), oneWire(oneWire)
 {
     //read values to conf from eeprom
     readBools();
@@ -239,6 +292,5 @@ Settings::Settings(Screen * screen) : screen(screen)
         saveMinTemps();
         saveBrightness();
         saveBools();
-        saveAddresses();
     }
 }

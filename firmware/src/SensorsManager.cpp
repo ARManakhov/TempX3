@@ -98,8 +98,7 @@ void SensorsManager::dispatch()
     }
 }
 
-SensorsManager::SensorsManager(std::vector<Sensor *> *sensors, Settings *settings) : sensorsInUse(sensors), settings(settings)
+SensorsManager::SensorsManager(std::vector<Sensor *> *sensors, Settings *settings, OneWire *oneWire) : sensorsInUse(sensors), settings(settings), oneWire(oneWire)
 {
     sensorsAll = new std::vector<Sensor *>();
-    oneWire = new OneWire(sensors_pin);
 }

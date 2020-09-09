@@ -12,7 +12,7 @@
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug",
-            "executable": "/home/sirosh/prog/hw/temp_3x/final/firmware/.pio/build/uno/firmware.elf",
+            "executable": "/home/sirosh/TempX3/firmware/.pio/build/uno/firmware.elf",
             "toolchainBinDir": "/home/sirosh/.platformio/packages/toolchain-atmelavr/bin",
             "preLaunchTask": {
                 "type": "PlatformIO",
@@ -24,7 +24,7 @@
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug (skip Pre-Debug)",
-            "executable": "/home/sirosh/prog/hw/temp_3x/final/firmware/.pio/build/uno/firmware.elf",
+            "executable": "/home/sirosh/TempX3/firmware/.pio/build/uno/firmware.elf",
             "toolchainBinDir": "/home/sirosh/.platformio/packages/toolchain-atmelavr/bin",
             "internalConsoleOptions": "openOnSessionStart"
         }

@@ -12,7 +12,8 @@ private:
     OneWire *oneWire;
     bool scanAllNew();
     long scanCooldown = 0;
+
 public:
-    SensorsManager(std::vector<Sensor *> *sensors, Settings *settings);
+    SensorsManager(std::vector<Sensor *> *sensors, Settings *settings, OneWire *oneWire);
     void dispatch();
 };

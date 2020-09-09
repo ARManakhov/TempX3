@@ -53,7 +53,9 @@ float Sensor::getTemp()
         //Serial.print("res 11");
         raw = raw & ~1; // 11 bit res, 375 ms
         disconnected = false;
-    }else{
+    }
+    else
+    {
         disconnected = true;
     }
 
@@ -75,11 +77,12 @@ byte *Sensor::getAddress()
     return addr;
 }
 
-Sensor::Sensor(byte addr[8], OneWire * oneWire) : addr(addr), oneWire(oneWire)
+Sensor::Sensor(byte addr[8], OneWire *oneWire) : addr(addr), oneWire(oneWire)
 {
 }
 
-bool Sensor::isDisconnected(){
+bool Sensor::isDisconnected()
+{
     return disconnected;
 }
 
@@ -87,7 +90,7 @@ void Sensor::init()
 {
     oneWire->reset();
     oneWire->select(addr);
-    oneWire->write(WRITESCRATCH, 1);         
+    oneWire->write(WRITESCRATCH, 1);
 
     delay(100);
     oneWire->write(0);
@@ -97,12 +100,11 @@ void Sensor::init()
     oneWire->reset();
     oneWire->select(addr);
     oneWire->write(COPYSCRATCH, 1);
-
-    
 }
 
-bool Sensor::equalAddr(Sensor * sensor){
-    byte * sensorAddress = sensor->getAddress();
+bool Sensor::equalAddr(Sensor *sensor)
+{
+    byte *sensorAddress = sensor->getAddress();
     for (size_t i = 0; i < 8; i++)
     {
         if (sensorAddress[i] != addr[i])
@@ -111,10 +113,10 @@ bool Sensor::equalAddr(Sensor * sensor){
         }
     }
     return true;
-
 }
 
-bool Sensor::equalAddr(byte * sensorAddress){
+bool Sensor::equalAddr(byte *sensorAddress)
+{
     for (size_t i = 0; i < 8; i++)
     {
         if (sensorAddress[i] != addr[i])
@@ -123,6 +125,34 @@ bool Sensor::equalAddr(byte * sensorAddress){
         }
     }
     return true;
-
 }
 
+void Sensor::setScreenOrder(byte order)
+{
+    screenOrder = order;
+}
+
+byte Sensor::getScreenOrder()
+{
+    return screenOrder;
+}
+
+void Sensor::setEepromOrder(byte order)
+{
+    eepromOrder = order;
+}
+
+byte Sensor::getEepromOrder()
+{
+    return eepromOrder;
+}
+
+void Sensor::setExpireOrder(byte order)
+{
+    expireOrder = order;
+}
+
+byte Sensor::getExpireOrder()
+{
+    return expireOrder;
+}
