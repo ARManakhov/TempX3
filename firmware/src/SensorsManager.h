@@ -11,13 +11,14 @@ class SensorsManager
 private:
     std::vector<Sensor *> *sensorsInUse;
     std::vector<Sensor *> *sensorsAll;
+    std::vector<Sensor *> *sensorsFromEeprom;
     Settings *settings;
     OneWire *oneWire;
     bool scanAllNew();
     long scanCooldown = 0;
 
 public:
-    SensorsManager(std::vector<Sensor *> *sensors, Settings *settings, OneWire *oneWire);
+    SensorsManager(std::vector<Sensor *> *sensors, std::vector<Sensor *> *sensorsFromEeprom, Settings *settings, OneWire *oneWire);
     void dispatch();
 };
 

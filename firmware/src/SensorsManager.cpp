@@ -12,6 +12,8 @@ bool SensorsManager::scanAllNew()
 
     while (oneWire->search(addr_p))
     {
+        
+        
         bool inVector = false;
         for (size_t i = 0; i < sensorsAll->size(); i++)
         {
@@ -47,11 +49,28 @@ bool SensorsManager::scanAllNew()
             isHasNew = true;
         }
 
-        Sensor *newSensor = new Sensor(addr_p, oneWire);
+        Sensor * eeprom = NULL;
+        for (size_t i = 0; i < sensorsFromEeprom->size(); i++)
+        {
+            Sensor * iterator = sensorsFromEeprom->at(i);
+            if (iterator->equalAddr(addr_p))
+            {
+                eeprom = iterator;
+            }
+        }
+
+        Sensor *newSensor;
+        if (eeprom == NULL)
+        {
+            newSensor = new Sensor(addr_p, oneWire);
+        } else
+        {
+            newSensor = eeprom;
+        }
+        
         sensorsAll->push_back(newSensor);
-        Serial.print("new sensor ");
-        Serial.println(newSensor->getAddress()[7]);
         newSensor->init();
+        settings->updateSensorsData(newSensor); //todo impl better performance when in eeprom
         addr_p = new byte[8];
     }
 
@@ -70,6 +89,7 @@ void SensorsManager::dispatch()
             hasDisconnected = true;
         }
     }
+    
     if ((sensorsInUse->size() < screen_ls || hasDisconnected) && scanCooldown + 150 < millis())
     {
         bool isHasNew = scanAllNew();
@@ -98,7 +118,7 @@ void SensorsManager::dispatch()
     }
 }
 
-SensorsManager::SensorsManager(std::vector<Sensor *> *sensors, Settings *settings, OneWire *oneWire) : sensorsInUse(sensors), settings(settings), oneWire(oneWire)
+SensorsManager::SensorsManager(std::vector<Sensor *> *sensors, std::vector<Sensor *> *sensorsFromEeprom, Settings *settings, OneWire *oneWire) : sensorsInUse(sensors), settings(settings), oneWire(oneWire), sensorsFromEeprom(sensorsFromEeprom)
 {
     sensorsAll = new std::vector<Sensor *>();
 }

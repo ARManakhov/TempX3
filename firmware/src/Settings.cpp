@@ -190,7 +190,6 @@ bool Settings::updateSensorsData(Sensor *sensor)
         sensor->setExpireOrder(0);
         if (sensorsFromEEPROM->size() == screen_ls*3)
         {
-            sensor->setExpireOrder(0);
             sensor->setEepromOrder(lastSensor->getEepromOrder()); 
             firstSensor = sensor;
             lastSensor = NULL;
@@ -206,12 +205,10 @@ bool Settings::updateSensorsData(Sensor *sensor)
             if (alreadyInEeprom)
             {
                 firstSensor->setExpireOrder(1);
-                sensor->setExpireOrder(0);
                 EEPROM.write(3 + screen_ls * 4 + sensor->getEepromOrder() * 10 + 1, sensor->getExpireOrder());
                 EEPROM.write(3 + screen_ls * 4 + firstSensor->getEepromOrder() * 10 + 1, firstSensor->getExpireOrder());
                 firstSensor = sensor;
             }else{
-                sensor->setExpireOrder(0);
                 byte maxOrder = 0;
                 for (size_t i = 0; i < sensors->size(); i++)
                 {
@@ -228,14 +225,12 @@ bool Settings::updateSensorsData(Sensor *sensor)
     }
     else
     {
-        sensor->setExpireOrder(0);
         sensor->setEepromOrder(0);
         sensorsFromEEPROM->push_back(sensor);
         saveNewSensor(sensor);
     }
     return true;
 }
-
 
 bool Settings::saveNewSensor(Sensor *sensor)
 {

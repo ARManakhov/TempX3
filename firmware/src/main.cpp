@@ -11,6 +11,7 @@
 using namespace std;
 
 vector<Sensor *> *sensors;
+vector<Sensor *> *sensorsFromEeprom;
 Screen *screen;
 byte scState[screen_ls];
 Settings *settings;
@@ -89,7 +90,7 @@ void setup()
 
     interfaceManager = new InterfaceManager(scState, settings);
     displayManager = new DisplayManager(scState, settings, sensors, screen);
-    sensorsManager = new SensorsManager(sensors, settings, &oneWire);
+    sensorsManager = new SensorsManager(sensors, sensorsFromEeprom, settings, &oneWire);
 
     xTaskCreate(TaskSensorsRead, "SensorRead", 128, NULL, 0, NULL);
     xTaskCreate(TaskScreenDraw, "ScreenDraw", 128, NULL, 0, NULL);
