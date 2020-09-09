@@ -121,4 +121,5 @@ void SensorsManager::dispatch()
 SensorsManager::SensorsManager(std::vector<Sensor *> *sensors, std::vector<Sensor *> *sensorsFromEeprom, Settings *settings, OneWire *oneWire) : sensorsInUse(sensors), settings(settings), oneWire(oneWire), sensorsFromEeprom(sensorsFromEeprom)
 {
     sensorsAll = new std::vector<Sensor *>();
+    Serial.println("asd");
 }

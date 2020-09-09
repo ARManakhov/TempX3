@@ -145,7 +145,7 @@ bool Settings::readAddresses()
             byte screenOrder = headerInfo & 0x01111111;
             byte expireOrder = (EEPROM.read(3 + screen_ls * 4 + i * 10 + 1));
             byte addr[8];
-            for (size_t j = 0; j < 8; i++)
+            for (size_t j = 0; j < 8; j++)
             {
                 addr[j] = EEPROM.read(3 + screen_ls * 4 + i * 10 + 2 + j);
             }
