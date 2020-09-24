@@ -6,7 +6,8 @@
 #define clock_pin 12
 #define data_pin 14
 #define sensors_pin 5
-#define zoomer_pin 6
+#define beeper_pin 6
+#define beeper_frequency 5000
 #define button_pins {3,4,5}
 #define button_currents {1024,510,340}
 

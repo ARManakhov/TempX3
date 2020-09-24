@@ -50,12 +50,12 @@ void InterfaceManager::dispatch(byte button, byte line)
         }
         case 13:
         {
-            settings->getZoomerMute()[1] = !settings->getZoomerMute()[1];
+            settings->getBeeperMute()[1] = !settings->getBeeperMute()[1];
             break;
         }
         case 14:
         {
-            settings->getZoomerInverted()[1] = !settings->getZoomerInverted()[1];
+            settings->getBeeperInverted()[1] = !settings->getBeeperInverted()[1];
             break;
         }
         case 15:
@@ -115,13 +115,13 @@ void InterfaceManager::dispatch(byte button, byte line)
         }
         case 13:
         {
-            settings->commitZoomerMute();
+            settings->commitBeeperMute();
             scState[line] = 0;
             break;
         }
         case 14:
         {
-            settings->commitZoomerInverted();
+            settings->commitBeeperInverted();
             scState[line] = 0;
             break;
         }
@@ -173,12 +173,12 @@ void InterfaceManager::dispatch(byte button, byte line)
         }
         case 13:
         {
-            settings->getZoomerMute()[1] = !settings->getZoomerMute()[1];
+            settings->getBeeperMute()[1] = !settings->getBeeperMute()[1];
             break;
         }
         case 14:
         {
-            settings->getZoomerInverted()[1] = !settings->getZoomerInverted()[1];
+            settings->getBeeperInverted()[1] = !settings->getBeeperInverted()[1];
             break;
         }
         case 15:

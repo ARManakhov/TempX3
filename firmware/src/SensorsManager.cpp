@@ -81,12 +81,17 @@ void SensorsManager::dispatch()
     bool hasDisconnected = false;
     for (size_t i = 0; i < sensorsInUse->size(); i++)
     {
-        sensorsInUse->at(i)->readData();
-        sensorsInUse->at(i)->getTemp();
+        Sensor * iterator = sensorsInUse->at(i);
+        iterator ->readData();
+        float temp = sensorsInUse->at(i)->getTemp();
         if (sensorsInUse->at(i)->isDisconnected())
         {
             hasDisconnected = true;
         }
+        if (temp > settings->getMaxTemps()[i*2+0] || temp < settings->getMinTemps()[i*2+0])
+            settings->getSensorsInRange()[i] = false;
+        else
+            settings->getSensorsInRange()[i] = true;
     }
     
     if ((sensorsInUse->size() < screen_ls || hasDisconnected) && scanCooldown + 150 < millis())

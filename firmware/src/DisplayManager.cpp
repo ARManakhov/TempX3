@@ -38,11 +38,11 @@ void DisplayManager::dispatch()
                 break;
             }
             case 13:{
-                screen->setLineData(i,settings->getZoomerMute()[1]);
+                screen->setLineData(i, settings->getBeeperMute()[1]);
                 break;
             }
             case 14:{
-                screen->setLineData(i,settings->getZoomerInverted()[1]);
+                screen->setLineData(i, settings->getBeeperInverted()[1]);
                 break;
             }
             case 15:{

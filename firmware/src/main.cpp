@@ -8,6 +8,8 @@
 #include "InterfaceManager.h"
 #include "DisplayManager.h"
 #include "SensorsManager.h"
+#include "BeeperManager.h"
+
 using namespace std;
 
 vector<Sensor *> *sensors;
@@ -18,6 +20,7 @@ Settings *settings;
 InterfaceManager *interfaceManager;
 DisplayManager *displayManager;
 SensorsManager *sensorsManager;
+BeeperManager *beeperManager;
 OneWire oneWire(sensors_pin);
 
 void TaskSensorsRead(void *pvParameters)
@@ -93,6 +96,7 @@ void setup()
     interfaceManager = new InterfaceManager(scState, settings);
     displayManager = new DisplayManager(scState, settings, sensors, screen);
     sensorsManager = new SensorsManager(sensors, sensorsFromEeprom, settings, &oneWire);
+    beeperManager = new BeeperManager(settings);
 
     xTaskCreate(TaskSensorsRead, "SensorRead", 128, NULL, 0, NULL);
     xTaskCreate(TaskScreenDraw, "ScreenDraw", 128, NULL, 0, NULL);

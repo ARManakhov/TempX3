@@ -19,32 +19,30 @@
     <select />
   </component>
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
-    <generated />
+    <generated>
+      <config projectName="firmware" targetName="Production" />
+      <config projectName="firmware" targetName="Debug" />
+      <config projectName="firmware" targetName="Z_DUMMY_TARGET" />
+    </generated>
   </component>
   <component name="CMakeSettings">
     <configurations>
-      <configuration PROFILE_NAME="Default" />
-      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
-      <configuration PROFILE_NAME="Release" CONFIG_NAME="Release" />
-      <configuration PROFILE_NAME="RelWithDebInfo" CONFIG_NAME="RelWithDebInfo" />
-      <configuration PROFILE_NAME="MinSizeRel" CONFIG_NAME="MinSizeRel" />
+      <configuration PROFILE_NAME="uno" CONFIG_NAME="uno" />
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4fa64a97-5e97-4d6f-b964-b5b67f4d9d65" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+    <list default="true" id="ba8141fa-0e8a-4f15-ab5b-bb8a08170787" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/BeeperManager.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/BeeperManager.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/screen_test.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DisplayManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/DisplayManager.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/InterfaceManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/InterfaceManager.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Screen.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Screen.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Sensor.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Sensor.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SensorsManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/SensorsManager.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DisplayManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/DisplayManager.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/InterfaceManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/InterfaceManager.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SensorsManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/SensorsManager.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Settings.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Settings.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Settings.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Settings.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/max7221codes.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/max7221codes.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/settingsHW.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/settingsHW.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -55,10 +53,14 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:uno" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectId" id="1hHoMIaGIiABz4S0TDqRplzInGG" />
+  <component name="OCResolveContextSettings">
+    <option name="configuration" value="0-uno-Z_DUMMY_TARGET" />
+  </component>
+  <component name="ProjectId" id="1hPB4Ux5Hu8nVe1WTnoqb0xtjwt" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -69,7 +71,12 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="cf.first.check.clang-format" value="false" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="PlatformIO.PlatformIO Debug">
+    <configuration name="Z_DUMMY_TARGET" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="firmware" TARGET_NAME="Z_DUMMY_TARGET" CONFIG_NAME="uno" RUN_TARGET_PROJECT_NAME="firmware" RUN_TARGET_NAME="Z_DUMMY_TARGET">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -80,16 +87,33 @@
         <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <configuration name="PlatformIO Debug" type="platformio" factoryName="PlatformIO Debug" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="firmware" TARGET_NAME="Debug" CONFIG_NAME="uno" RUN_TARGET_PROJECT_NAME="firmware" RUN_TARGET_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PlatformIO Upload" type="platformio" factoryName="PlatformIO Upload" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="firmware" TARGET_NAME="Production" CONFIG_NAME="uno" RUN_TARGET_PROJECT_NAME="firmware" RUN_TARGET_NAME="Production">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="CMake Application.Z_DUMMY_TARGET" />
+      <item itemvalue="PlatformIO.PlatformIO Debug" />
+      <item itemvalue="PlatformIO.PlatformIO Upload" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="4fa64a97-5e97-4d6f-b964-b5b67f4d9d65" name="Default Changelist" comment="" />
-      <created>1599677328750</created>
+      <changelist id="ba8141fa-0e8a-4f15-ab5b-bb8a08170787" name="Default Changelist" comment="" />
+      <created>1599902656407</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1599677328750</updated>
-      <workItem from="1599677329940" duration="256000" />
+      <updated>1599902656407</updated>
+      <workItem from="1599902658157" duration="349000" />
+      <workItem from="1600341195221" duration="3220000" />
+      <workItem from="1600905406900" duration="38000" />
     </task>
     <servers />
   </component>
@@ -106,27 +130,36 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="424" y="187" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1599677477927">
+    <state x="773" y="248" key="#com.intellij.ide.util.MemberChooser" timestamp="1600342644467">
       <screen x="0" y="0" width="1920" height="1062" />
     </state>
-    <state x="424" y="187" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1062@0.0.1920.1062" timestamp="1599677477927" />
-    <state width="1878" height="281" key="GridCell.Tab.0.bottom" timestamp="1599677585299">
+    <state x="773" y="248" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1062@0.0.1920.1062" timestamp="1600342644467" />
+    <state width="1878" height="281" key="GridCell.Tab.0.bottom" timestamp="1599902683007">
       <screen x="0" y="0" width="1920" height="1062" />
     </state>
-    <state width="1878" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1062@0.0.1920.1062" timestamp="1599677585299" />
-    <state width="1878" height="281" key="GridCell.Tab.0.center" timestamp="1599677585298">
+    <state width="1878" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1062@0.0.1920.1062" timestamp="1599902683007" />
+    <state width="1878" height="281" key="GridCell.Tab.0.center" timestamp="1599902683006">
       <screen x="0" y="0" width="1920" height="1062" />
     </state>
-    <state width="1878" height="281" key="GridCell.Tab.0.center/0.0.1920.1062@0.0.1920.1062" timestamp="1599677585298" />
-    <state width="1878" height="281" key="GridCell.Tab.0.left" timestamp="1599677585298">
+    <state width="1878" height="281" key="GridCell.Tab.0.center/0.0.1920.1062@0.0.1920.1062" timestamp="1599902683006" />
+    <state width="1878" height="281" key="GridCell.Tab.0.left" timestamp="1599902683005">
       <screen x="0" y="0" width="1920" height="1062" />
     </state>
-    <state width="1878" height="281" key="GridCell.Tab.0.left/0.0.1920.1062@0.0.1920.1062" timestamp="1599677585298" />
-    <state width="1878" height="281" key="GridCell.Tab.0.right" timestamp="1599677585299">
+    <state width="1878" height="281" key="GridCell.Tab.0.left/0.0.1920.1062@0.0.1920.1062" timestamp="1599902683005" />
+    <state width="1878" height="281" key="GridCell.Tab.0.right" timestamp="1599902683006">
       <screen x="0" y="0" width="1920" height="1062" />
     </state>
-    <state width="1878" height="281" key="GridCell.Tab.0.right/0.0.1920.1062@0.0.1920.1062" timestamp="1599677585299" />
+    <state width="1878" height="281" key="GridCell.Tab.0.right/0.0.1920.1062@0.0.1920.1062" timestamp="1599902683006" />
+    <state x="100" y="100" width="1720" height="862" key="dock-window-1" timestamp="1600341864359">
+      <screen x="0" y="0" width="1920" height="1062" />
+    </state>
+    <state x="100" y="100" width="1720" height="862" key="dock-window-1/0.0.1920.1062@0.0.1920.1062" timestamp="1600341864359" />
+    <state x="100" y="100" width="1720" height="862" key="dock-window-2" timestamp="1600341864359">
+      <screen x="0" y="0" width="1920" height="1062" />
+    </state>
+    <state x="100" y="100" width="1720" height="862" key="dock-window-2/0.0.1920.1062@0.0.1920.1062" timestamp="1600341864359" />
   </component>
 </project>

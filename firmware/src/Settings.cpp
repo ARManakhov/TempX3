@@ -17,14 +17,14 @@ int16_t *Settings::getMinTemps()
     return minTemps;
 }
 
-bool *Settings::getZoomerInverted()
+bool *Settings::getBeeperInverted()
 {
-    return zoomerInverted;
+    return beeperInverted;
 }
 
-bool *Settings::getZoomerMute()
+bool *Settings::getBeeperMute()
 {
-    return zoomerMuted;
+    return beeperMuted;
 }
 
 bool Settings::commitBrightness()
@@ -78,29 +78,29 @@ bool Settings::commitMinTemps()
     return wasTrue;
 }
 
-bool Settings::commitZoomerInverted()
+bool Settings::commitBeeperInverted()
 {
-    if (zoomerInverted[0] != zoomerInverted[1])
+    if (beeperInverted[0] != beeperInverted[1])
     {
-        zoomerInverted[0] = zoomerInverted[1];
-        saveBools();
+        beeperInverted[0] = beeperInverted[1];
+        saveBooleans();
         return true;
     }
     return false;
 }
 
-bool Settings::commitZoomerMute()
+bool Settings::commitBeeperMute()
 {
-    if (zoomerMuted[0] != zoomerMuted[1])
+    if (beeperMuted[0] != beeperMuted[1])
     {
-        zoomerMuted[0] = zoomerMuted[1];
+        beeperMuted[0] = beeperMuted[1];
     }
     return true;
 }
 
-bool Settings::saveBools()
+bool Settings::saveBooleans()
 {
-    byte bools = (zoomerMuted[0] << 1) + zoomerInverted[0];
+    byte bools = (beeperMuted[0] << 1) + beeperInverted[0];
     EEPROM.write(1, bools);
     return true;
 }
@@ -258,13 +258,13 @@ bool Settings::saveNewSensor(Sensor *sensor)
     return true;
 }
 
-bool Settings::readBools()
+bool Settings::readBooleans()
 {
     byte bools = EEPROM.read(1);
-    zoomerInverted[0] = bools & 0xFE;
-    zoomerInverted[1] = zoomerInverted[0];
-    zoomerMuted[0] = bools >> 1;
-    zoomerMuted[1] = zoomerMuted[0];
+    beeperInverted[0] = bools & 0xFE;
+    beeperInverted[1] = beeperInverted[0];
+    beeperMuted[0] = bools >> 1;
+    beeperMuted[1] = beeperMuted[0];
     return true;
 }
 
@@ -299,7 +299,7 @@ bool Settings::readBrightness()
 Settings::Settings(Screen *screen, OneWire *oneWire, std::vector<Sensor *> *sensorsFromEeprom) : screen(screen), oneWire(oneWire), sensorsFromEEPROM(sensorsFromEeprom)
 {
     //read values to conf from eeprom
-    readBools();
+    readBooleans();
     readMinTemps();
     readMaxTemps();
     readBrightness();
@@ -324,17 +324,21 @@ Settings::Settings(Screen *screen, OneWire *oneWire, std::vector<Sensor *> *sens
             maxTemps[i * 2 + 1] = 0;
             minTemps[i * 2] = 0;
             minTemps[i * 2 + 1] = 0;
-            addressess[i] = 0;
+            addresses[i] = 0;
         }
-        zoomerMuted[0] = true;
-        zoomerMuted[1] = true;
-        zoomerInverted[0] = true;
-        zoomerInverted[1] = true;
+        beeperMuted[0] = true;
+        beeperMuted[1] = true;
+        beeperInverted[0] = true;
+        beeperInverted[1] = true;
         brightness[0] = 7;
         brightness[1] = 7;
         saveMaxTemps();
         saveMinTemps();
         saveBrightness();
-        saveBools();
+        saveBooleans();
     }
+}
+
+ bool *Settings::getSensorsInRange()  {
+    return sensorsInRange;
 }
