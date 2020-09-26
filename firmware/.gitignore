@@ -1,6 +1,6 @@
 .pio/**
 .vscode/**
 .idea/**
-include
-lib
+include/
+lib/
 cmake-build-*/ 
