@@ -38,7 +38,3 @@
 #logs of diptrace
 Pcb_d3d9.log
 
-*/.pio/*
-*/.vscode/*
-*/.idea/*
-
