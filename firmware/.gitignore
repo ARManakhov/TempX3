@@ -1,7 +1,6 @@
-.pio*
-.vscode*
-.idea*
+/.pio
+/.vscode
+/.idea
 include
 lib
-CMakeListsPrivate.txt
 cmake-build-*/ 
